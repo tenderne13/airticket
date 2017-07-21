@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true">   
+	<!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->    
+    <property name="LOG_HOME" value="D:/J2EE/Log" />
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<Encoding>UTF-8</Encoding> 
+	    <layout class="ch.qos.logback.classic.PatternLayout">     
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}  %-5level - %msg - %logger{50} %n
+            </pattern>     
+        </layout>
+  	</appender>
+   
+	<appender name="FILEINFO" class="ch.qos.logback.core.rolling.RollingFileAppender">    
+        <Encoding>UTF-8</Encoding>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">    
+            <!--在工程目录下自动生成logs文件夹 -->
+            <FileNamePattern>${LOG_HOME}/fyhy_log-info.%d{yyyy-MM-dd}.log</FileNamePattern>    
+            <!-- 最多365个文件，即保存近1年的日志。一年后的日志文件被覆盖 -->
+            <MaxHistory>365</MaxHistory>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+        <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+        </layout>   
+       <!--日志文件最大的大小-->
+       <!-- 
+       <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">  
+         <MaxFileSize>10MB</MaxFileSize>  
+       </triggeringPolicy>
+        --> 
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>info</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender> 
+  
+	<appender name="FILEERROR"  class="ch.qos.logback.core.rolling.RollingFileAppender">    
+        <Encoding>UTF-8</Encoding>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">    
+            <!--在工程目录下自动生成logs文件夹 -->
+            <FileNamePattern>${LOG_HOME}/fyhy_log-error.%d{yyyy-MM-dd}.log</FileNamePattern>    
+            <!-- 最多365个文件，即保存近1年的日志。一年后的日志文件被覆盖 -->
+            <MaxHistory>365</MaxHistory>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+        <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+        </layout>
+         <!--日志文件最大的大小-->
+        <!-- 
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+         <MaxFileSize>10MB</MaxFileSize>
+       </triggeringPolicy>
+         -->
+       
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+	
+	<!-- 单独配置mybatis sql日志 begin -->
+    <!--  
+	<logger name="jdbc.sqltiming" level="debug"/>
+    <logger name="com.ibatis" level="debug" />
+    <logger name="com.ibatis.common.jdbc.SimpleDataSource" level="debug" />
+    <logger name="com.ibatis.common.jdbc.ScriptRunner" level="debug" />
+    <logger name="com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate" level="debug" />
+    <logger name="java.sql.Connection" level="debug" />
+    <logger name="java.sql.Statement" level="debug" />
+    <logger name="java.sql.PreparedStatement" level="debug" />
+    <logger name="java.sql.ResultSet" level="debug" />
+    -->
+    
+    <!-- 
+    <logger name="com.ibatis" level="debug" >
+    	<appender-ref ref="STDOUT"/>
+    </logger>
+    <logger name="java.sql" level="debug">
+	    <appender-ref ref="STDOUT"/>
+	</logger>
+	 -->
+	<!-- <logger name="mybatis.ucenter.system" level="DEBUG"/> -->
+	<!-- 单独配置mybatis sql日志 end -->
+	
+	
+	<root level="DEBUG">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILEINFO" />
+		<appender-ref ref="FILEERROR" />
+		<!-- <appender-ref ref="com.ibatis" /> -->
+  	</root>
+    
+    
+ </configuration>

@@ -113,6 +113,12 @@
 		    <version>2.7.2</version>  
 		</dependency>  
   
+  		<!-- dungProxy -->
+		<dependency>
+		    <groupId>com.virjar</groupId>
+		    <artifactId>dungproxy-client</artifactId>
+		    <version>0.0.6</version>
+		</dependency>
   
   </dependencies>
   <build>
