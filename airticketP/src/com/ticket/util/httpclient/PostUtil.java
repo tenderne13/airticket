@@ -24,6 +24,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -174,6 +175,8 @@ public class PostUtil {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally{
+			httpClient.close();
 		}
 		return "";
 		
@@ -182,22 +185,10 @@ public class PostUtil {
 	
 	public static JSONObject doGetJson(String url){
 		DefaultHttpClient httpClient=new DefaultHttpClient();
+		//HttpClient httpClient=HttpClientManager.getHttpClient("111.155.116.201", 8123);
 		//enableSSL(httpClient);
 		HttpGet httpGet=new HttpGet(url);
-//		httpGet.setHeader("Host", "www.toutiao.com");
-//		httpGet.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:49.0) Gecko/20100101 Firefox/49.0");
-//		httpGet.setHeader("Accept","text/javascript, text/html, application/xml, text/xml, */*");
-//		httpGet.setHeader("Accept-Language","zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3");
-//		httpGet.setHeader("X-Requested-With","XMLHttpRequest");
-//		httpGet.setHeader("Content-Type","text/*, application/xml");
-//		httpGet.setHeader("Connection","keep-alive");
-//		httpGet.setHeader("Cookie", "csrftoken=30dcf3990fa6aae5e2bc32ce86e5ec48; tt_webid=6436619940845880834; WEATHER_CITY=%E5%8C%97%E4%BA"+
-//							"%AC; UM_distinctid=15cee0bbd12d8-0b0e1e2319539d-4d584131-13c680-15cee0bbd13139; CNZZDATA1259612802=1009653813-1498637798-null"+
-//							"%7C1498702598; uuid='w:519f60b4044649639aedec9bd897dd23'; _ga=GA1.2.1944013063.1498642370; _gid=GA1.2"+
-//							".1874914792.1498642370; _ba=BA0.2-20170306-51d9e-7ViJkABCocglT3ZWa1Rt; utm_source=toutiao; __tasessionId"+
-//							"=w4uunxnea1498706518539; sso_login_status=1; login_flag=31e611b5884dc27e1524824fd3f0a04f; sessionid=6aaf97545a4502872be1747b53a80b3c"+
-//							"; uid_tt=f8d062cc0c5b920d3729a23fdf443978; sid_tt=6aaf97545a4502872be1747b53a80b3c; sid_guard='6aaf97545a4502872be1747b53a80b3c"+
-//							"|1498706541|2591999|Sat\054 29-Jul-2017 03:22:20 GMT'");
+		httpGet.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:49.0) Gecko/20100101 Firefox/49.0");
 		try {
 			HttpResponse response=httpClient.execute(httpGet);
 			HttpEntity entity=response.getEntity();
@@ -207,8 +198,9 @@ public class PostUtil {
 			}
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println(">>>>>>>>>出现异常开始重试<<<<<<"+e);
+			doGetJson(url);
 		}
 		return null;
 		
@@ -254,6 +246,8 @@ public class PostUtil {
 			result=EntityUtils.toString(response.getEntity(),"UTF-8");
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally{
+			httpClient.close();
 		}
 		return result;
 	}

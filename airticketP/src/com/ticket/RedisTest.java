@@ -1,6 +1,7 @@
 package com.ticket;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
@@ -24,8 +25,11 @@ public class RedisTest {
 	public void test(){
 		RedisTemplate<String, Object> redisTemplate = (RedisTemplate<String, Object>) applicationContext.getBean("redisTemplate");
 		HashOperations<String, Object, Object> opsForHash = redisTemplate.opsForHash();
-		for(int i=0;i<30;i++){
-			new CrawlThread("MU5128", i, opsForHash).start();
-		}
+//		for(int i=0;i<30;i++){
+//			new CrawlThread("MU5128", i, opsForHash).start();
+//		}
+		 List<Object> list = opsForHash.values("MU5128:2017-07-24");
+		 Map<Object, Object> map = opsForHash.entries("MU5128:2017-07-24");
+		 System.out.println(map);
 	}
 }
